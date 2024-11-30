@@ -8,6 +8,19 @@ from PyQt6.QtWidgets import QPushButton, QWidget
 class CircleWidget(QWidget):
     def __init__(self):
         super().__init__()
+
+
+class MainWindow(QtWidgets.QMainWindow):
+    def __init__(self):
+        super(MainWindow, self).__init__()
+        uic.loadUi('UI.ui', self)
+
+        # self.circle_widget = CircleWidget()
+        # self.circle_widget.show()
+
+        self.add_circle_button = self.findChild(QPushButton, 'addCircleButton')
+        self.add_circle_button.clicked.connect(self.add_circle)
+
         self.circles = []
 
     def paintEvent(self, event):
@@ -22,19 +35,6 @@ class CircleWidget(QWidget):
         y = random.randint(0, self.height() - diameter)
         self.circles.append((x, y, diameter))
         self.update()
-
-
-class MainWindow(QtWidgets.QMainWindow):
-    def __init__(self):
-        super(MainWindow, self).__init__()
-        uic.loadUi('UI.ui', self)
-
-        self.circle_widget = CircleWidget()
-        self.setCentralWidget(self.circle_widget)
-
-        self.add_circle_button = self.findChild(QPushButton, 'addCircleButton')
-        self.add_circle_button.clicked.connect(self.circle_widget.add_circle)
-
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
